@@ -1,14 +1,12 @@
-package nonorospring.domain;
+package nonorospring.splearn.domain;
 
-import nonorospring.splearn.domain.Member;
-import nonorospring.splearn.domain.MemberRegisterRequest;
-import nonorospring.splearn.domain.MemberStatus;
-import nonorospring.splearn.domain.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static nonorospring.splearn.domain.MemberFixture.createMemberRegisterRequest;
+import static nonorospring.splearn.domain.MemberFixture.createPasswordEncoder;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class MemberTest {
@@ -17,18 +15,8 @@ class MemberTest {
 
     @BeforeEach
     void setup() {
-        this.passwordEncoder = new PasswordEncoder() {
-            @Override
-            public String encode(String password) {
-                return password.toUpperCase();
-            }
-
-            @Override
-            public boolean matches(String password, String encodedPassword) {
-                return encode(password).equals(encodedPassword);
-            }
-        };
-        member = Member.register(new MemberRegisterRequest("nonoro@splearn.app", "nonoro", "secret"), passwordEncoder);
+        this.passwordEncoder = createPasswordEncoder();
+        member = Member.register(createMemberRegisterRequest(), passwordEncoder);
     }
 
     @Test
@@ -109,10 +97,10 @@ class MemberTest {
     @Test
     void invalidEmail() {
         assertThatThrownBy(() -> {
-            Member.register(new MemberRegisterRequest("invaild email", "nonoro", "secret"), passwordEncoder);
+            Member.register(createMemberRegisterRequest("invalid email"), passwordEncoder);
         }).isInstanceOf(IllegalArgumentException.class);
 
-        Member.register(new MemberRegisterRequest("nonoro@gmail.com", "nonoro", "secret"), passwordEncoder);
+        Member.register(createMemberRegisterRequest(), passwordEncoder);
 
     }
 }

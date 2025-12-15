@@ -1,6 +1,5 @@
-package nonorospring.domain;
+package nonorospring.splearn.domain;
 
-import nonorospring.splearn.domain.Email;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

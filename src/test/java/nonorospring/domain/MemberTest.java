@@ -1,5 +1,9 @@
 package nonorospring.domain;
 
+import nonorospring.splearn.domain.Member;
+import nonorospring.splearn.domain.MemberCreateRequest;
+import nonorospring.splearn.domain.MemberStatus;
+import nonorospring.splearn.domain.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -100,5 +104,15 @@ class MemberTest {
         member.deactivated();
 
         assertThat(member.isActive()).isFalse();
+    }
+
+    @Test
+    void invalidEmail() {
+        assertThatThrownBy(() -> {
+            Member.create(new MemberCreateRequest("invaild email", "nonoro", "secret"), passwordEncoder);
+        }).isInstanceOf(IllegalArgumentException.class);
+
+        Member.create(new MemberCreateRequest("nonoro@gmail.com", "nonoro", "secret"), passwordEncoder);
+
     }
 }

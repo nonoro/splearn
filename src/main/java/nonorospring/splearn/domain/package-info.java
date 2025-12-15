@@ -1,4 +1,4 @@
 @NonNullApi
-package nonorospring.domain;
+package nonorospring.splearn.domain;
 
 import org.springframework.lang.NonNullApi;

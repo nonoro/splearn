@@ -1,4 +1,4 @@
-package nonorospring.domain;
+package nonorospring.splearn.domain;
 
 public interface PasswordEncoder {
     String encode(String password);

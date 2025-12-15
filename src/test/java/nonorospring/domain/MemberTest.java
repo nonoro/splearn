@@ -1,7 +1,7 @@
 package nonorospring.domain;
 
 import nonorospring.splearn.domain.Member;
-import nonorospring.splearn.domain.MemberCreateRequest;
+import nonorospring.splearn.domain.MemberRegisterRequest;
 import nonorospring.splearn.domain.MemberStatus;
 import nonorospring.splearn.domain.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,11 +28,11 @@ class MemberTest {
                 return encode(password).equals(encodedPassword);
             }
         };
-        member = Member.create(new MemberCreateRequest("nonoro@splearn.app", "nonoro", "secret"), passwordEncoder);
+        member = Member.register(new MemberRegisterRequest("nonoro@splearn.app", "nonoro", "secret"), passwordEncoder);
     }
 
     @Test
-    void createMember() {
+    void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
     }
 
@@ -109,10 +109,10 @@ class MemberTest {
     @Test
     void invalidEmail() {
         assertThatThrownBy(() -> {
-            Member.create(new MemberCreateRequest("invaild email", "nonoro", "secret"), passwordEncoder);
+            Member.register(new MemberRegisterRequest("invaild email", "nonoro", "secret"), passwordEncoder);
         }).isInstanceOf(IllegalArgumentException.class);
 
-        Member.create(new MemberCreateRequest("nonoro@gmail.com", "nonoro", "secret"), passwordEncoder);
+        Member.register(new MemberRegisterRequest("nonoro@gmail.com", "nonoro", "secret"), passwordEncoder);
 
     }
 }

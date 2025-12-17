@@ -1,11 +1,9 @@
 package nonorospring.splearn.application.provided;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import nonorospring.splearn.SplearnTestConfiguration;
-import nonorospring.splearn.domain.DuplicateEmailException;
-import nonorospring.splearn.domain.Member;
-import nonorospring.splearn.domain.MemberFixture;
-import nonorospring.splearn.domain.MemberStatus;
+import nonorospring.splearn.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -32,5 +30,18 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
 
         assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
+    }
+
+    @Test
+    void memberRegisterRequestFail() {
+        extracted(new MemberRegisterRequest("nonoro@splearn.app", "nono", "longsecret"));
+        extracted(new MemberRegisterRequest("nonoro@splearn.app", "Charlie--------------------------------", "longsecret"));
+        extracted(new MemberRegisterRequest("nonorosplearn.app", "nonoro", "longsecret"));
+
+    }
+
+    private void extracted(MemberRegisterRequest invalid) {
+        assertThatThrownBy(() -> memberRegister.register(invalid))
+            .isInstanceOf(ConstraintViolationException.class);
     }
 }

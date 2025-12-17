@@ -1,13 +1,17 @@
 package nonorospring.splearn.application;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import nonorospring.splearn.application.provided.MemberRegister;
 import nonorospring.splearn.application.required.EmailSender;
 import nonorospring.splearn.application.required.MemberRepository;
 import nonorospring.splearn.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @RequiredArgsConstructor
+@Validated
+@Transactional
 @Service
 public class MemberService implements MemberRegister {
     private final MemberRepository memberRepository;

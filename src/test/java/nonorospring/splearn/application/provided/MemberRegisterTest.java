@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Import(SplearnTestConfiguration.class)
 @Transactional
 @SpringBootTest
-public record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register() {
@@ -48,13 +48,13 @@ public record MemberRegisterTest(MemberRegister memberRegister, EntityManager en
 
     @Test
     void memberRegisterRequestFail() {
-        extracted(new MemberRegisterRequest("nonoro@splearn.app", "nono", "longsecret"));
-        extracted(new MemberRegisterRequest("nonoro@splearn.app", "Charlie--------------------------------", "longsecret"));
-        extracted(new MemberRegisterRequest("nonorosplearn.app", "nonoro", "longsecret"));
+        checkValidation(new MemberRegisterRequest("nonoro@splearn.app", "nono", "longsecret"));
+        checkValidation(new MemberRegisterRequest("nonoro@splearn.app", "Charlie--------------------------------", "longsecret"));
+        checkValidation(new MemberRegisterRequest("nonorosplearn.app", "nonoro", "longsecret"));
 
     }
 
-    private void extracted(MemberRegisterRequest invalid) {
+    private void checkValidation(MemberRegisterRequest invalid) {
         assertThatThrownBy(() -> memberRegister.register(invalid))
             .isInstanceOf(ConstraintViolationException.class);
     }

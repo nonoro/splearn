@@ -1,8 +1,8 @@
 package nonorospring.splearn;
 
-import nonorospring.splearn.application.required.EmailSender;
-import nonorospring.splearn.domain.MemberFixture;
-import nonorospring.splearn.domain.PasswordEncoder;
+import nonorospring.splearn.application.member.required.EmailSender;
+import nonorospring.splearn.domain.member.MemberFixture;
+import nonorospring.splearn.domain.member.PasswordEncoder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

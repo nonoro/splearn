@@ -1,7 +1,7 @@
-package nonorospring.splearn.application.required;
+package nonorospring.splearn.application.member.required;
 
-import nonorospring.splearn.domain.Email;
-import nonorospring.splearn.domain.Member;
+import nonorospring.splearn.domain.shared.Email;
+import nonorospring.splearn.domain.member.Member;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;

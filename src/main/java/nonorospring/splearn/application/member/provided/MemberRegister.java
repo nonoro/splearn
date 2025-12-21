@@ -1,8 +1,8 @@
-package nonorospring.splearn.application.provided;
+package nonorospring.splearn.application.member.provided;
 
 import jakarta.validation.Valid;
-import nonorospring.splearn.domain.Member;
-import nonorospring.splearn.domain.MemberRegisterRequest;
+import nonorospring.splearn.domain.member.Member;
+import nonorospring.splearn.domain.member.MemberRegisterRequest;
 
 /**
  * 회원의 등록과 관련된 기능을 제공한다

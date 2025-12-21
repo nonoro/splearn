@@ -1,6 +1,6 @@
-package nonorospring.splearn.application.required;
+package nonorospring.splearn.application.member.required;
 
-import nonorospring.splearn.domain.Email;
+import nonorospring.splearn.domain.shared.Email;
 import org.springframework.stereotype.Component;
 
 /**

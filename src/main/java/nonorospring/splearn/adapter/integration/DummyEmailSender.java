@@ -1,7 +1,7 @@
 package nonorospring.splearn.adapter.integration;
 
-import nonorospring.splearn.application.required.EmailSender;
-import nonorospring.splearn.domain.Email;
+import nonorospring.splearn.application.member.required.EmailSender;
+import nonorospring.splearn.domain.shared.Email;
 import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;
 

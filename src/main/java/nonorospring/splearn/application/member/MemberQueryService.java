@@ -1,10 +1,10 @@
-package nonorospring.splearn.application;
+package nonorospring.splearn.application.member;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import nonorospring.splearn.application.provided.MemberFinder;
-import nonorospring.splearn.application.required.MemberRepository;
-import nonorospring.splearn.domain.Member;
+import nonorospring.splearn.application.member.provided.MemberFinder;
+import nonorospring.splearn.application.member.required.MemberRepository;
+import nonorospring.splearn.domain.member.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

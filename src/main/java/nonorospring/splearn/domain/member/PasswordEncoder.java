@@ -1,4 +1,4 @@
-package nonorospring.splearn.domain;
+package nonorospring.splearn.domain.member;
 
 import org.springframework.stereotype.Component;
 

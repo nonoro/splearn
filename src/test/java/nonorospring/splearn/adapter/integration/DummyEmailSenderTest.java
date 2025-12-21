@@ -1,6 +1,6 @@
 package nonorospring.splearn.adapter.integration;
 
-import nonorospring.splearn.domain.Email;
+import nonorospring.splearn.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.StdIo;
 import org.junitpioneer.jupiter.StdOut;

@@ -1,4 +1,4 @@
-package nonorospring.splearn.domain;
+package nonorospring.splearn.domain.shared;
 
 import java.util.regex.Pattern;
 

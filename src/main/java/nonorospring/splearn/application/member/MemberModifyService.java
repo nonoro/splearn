@@ -1,12 +1,16 @@
-package nonorospring.splearn.application;
+package nonorospring.splearn.application.member;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import nonorospring.splearn.application.provided.MemberFinder;
-import nonorospring.splearn.application.provided.MemberRegister;
-import nonorospring.splearn.application.required.EmailSender;
-import nonorospring.splearn.application.required.MemberRepository;
-import nonorospring.splearn.domain.*;
+import nonorospring.splearn.application.member.provided.MemberFinder;
+import nonorospring.splearn.application.member.provided.MemberRegister;
+import nonorospring.splearn.application.member.required.EmailSender;
+import nonorospring.splearn.application.member.required.MemberRepository;
+import nonorospring.splearn.domain.member.DuplicateEmailException;
+import nonorospring.splearn.domain.member.Member;
+import nonorospring.splearn.domain.member.MemberRegisterRequest;
+import nonorospring.splearn.domain.member.PasswordEncoder;
+import nonorospring.splearn.domain.shared.Email;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

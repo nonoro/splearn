@@ -1,4 +1,4 @@
-package nonorospring.splearn.domain;
+package nonorospring.splearn.domain.member;
 
 public enum MemberStatus {
     PENDING, ACTIVE, DEACTIVATED

@@ -1,10 +1,10 @@
-package nonorospring.splearn.application.provided;
+package nonorospring.splearn.application.member.provided;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import nonorospring.splearn.SplearnTestConfiguration;
-import nonorospring.splearn.domain.Member;
-import nonorospring.splearn.domain.MemberFixture;
+import nonorospring.splearn.domain.member.Member;
+import nonorospring.splearn.domain.member.MemberFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

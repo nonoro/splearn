@@ -1,4 +1,4 @@
-package nonorospring.splearn.domain;
+package nonorospring.splearn.domain.member;
 
 public class MemberFixture {
     public static MemberRegisterRequest createMemberRegisterRequest(String email) {

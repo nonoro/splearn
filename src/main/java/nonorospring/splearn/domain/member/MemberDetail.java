@@ -1,6 +1,5 @@
 package nonorospring.splearn.domain.member;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +16,6 @@ import java.util.Objects;
 @Getter
 @Entity
 public class MemberDetail extends AbstractEntity {
-    @Embedded
     private Profile profile;
 
     private String introduction;
@@ -46,7 +44,7 @@ public class MemberDetail extends AbstractEntity {
         this.deactivatedAt = LocalDateTime.now();
     }
 
-    void updateInfo(MemberInfoUPdateRequest updateRequest) {
+    void updateInfo(MemberInfoUpdateRequest updateRequest) {
         this.profile = new Profile(updateRequest.profileAddress());
         this.introduction = Objects.requireNonNull(updateRequest.introduction());
     }

@@ -6,10 +6,7 @@ import nonorospring.splearn.application.member.provided.MemberFinder;
 import nonorospring.splearn.application.member.provided.MemberRegister;
 import nonorospring.splearn.application.member.required.EmailSender;
 import nonorospring.splearn.application.member.required.MemberRepository;
-import nonorospring.splearn.domain.member.DuplicateEmailException;
-import nonorospring.splearn.domain.member.Member;
-import nonorospring.splearn.domain.member.MemberRegisterRequest;
-import nonorospring.splearn.domain.member.PasswordEncoder;
+import nonorospring.splearn.domain.member.*;
 import nonorospring.splearn.domain.shared.Email;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +39,24 @@ public class MemberModifyService implements MemberRegister {
         Member member = memberFinder.find(memberId);
 
         member.activate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.deactivated();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUPdateRequest) {
+        Member member = memberFinder.find(memberId);
+
+        member.updateInfo(memberInfoUPdateRequest);
 
         return memberRepository.save(member);
     }

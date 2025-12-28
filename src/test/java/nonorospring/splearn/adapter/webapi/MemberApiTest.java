@@ -1,56 +1,75 @@
 package nonorospring.splearn.adapter.webapi;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import nonorospring.splearn.adapter.webapi.dto.MemberRegisterResponse;
 import nonorospring.splearn.application.member.provided.MemberRegister;
+import nonorospring.splearn.application.member.required.MemberRepository;
 import nonorospring.splearn.domain.member.Member;
 import nonorospring.splearn.domain.member.MemberFixture;
 import nonorospring.splearn.domain.member.MemberRegisterRequest;
+import nonorospring.splearn.domain.member.MemberStatus;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
 import tools.jackson.databind.ObjectMapper;
 
+import java.io.UnsupportedEncodingException;
+
+import static nonorospring.splearn.AssertThatUtils.equalsTo;
+import static nonorospring.splearn.AssertThatUtils.notNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+@Transactional
 @RequiredArgsConstructor
-@WebMvcTest(MemberApi.class)
-class MemberApiTest {
-    @MockitoBean
-    MemberRegister memberRegister;
-
+@AutoConfigureMockMvc
+@SpringBootTest
+public class MemberApiTest {
     final MockMvcTester mvcTester;
     final ObjectMapper objectMapper;
+    final MemberRepository memberRepository;
+    final MemberRegister memberRegister;
 
     @Test
-    void register() {
-        Member member = MemberFixture.createMember(1L);
-        when(memberRegister.register(any())).thenReturn(member);
+    void register() throws UnsupportedEncodingException {
+        MemberRegisterRequest request = MemberFixture.createMemberRegisterRequest();
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        MvcTestResult result = mvcTester.post().uri("/api/members").contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson).exchange();
+
+        assertThat(result)
+                .hasStatusOk()
+                .bodyJson()
+                .hasPathSatisfying("$.memberId", notNull())
+                .hasPathSatisfying("$.email", equalsTo(request));
+
+        MemberRegisterResponse response =
+                objectMapper.readValue(result.getResponse().getContentAsString(), MemberRegisterResponse.class);
+        Member member = memberRepository.findById(response.memberId()).orElseThrow();
+
+        assertThat(member.getEmail().address()).isEqualTo(request.email());
+        assertThat(member.getNickname()).isEqualTo(request.nickname());
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+    }
+
+    @Test
+    void duplicateEmail() {
+        memberRegister.register(MemberFixture.createMemberRegisterRequest());
 
         MemberRegisterRequest request = MemberFixture.createMemberRegisterRequest();
         String requestJson = objectMapper.writeValueAsString(request);
 
-        assertThat(mvcTester.post().uri("/api/members").contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson))
-                .hasStatusOk()
-                .bodyJson()
-                .extractingPath("$.memberId").asNumber().isEqualTo(1);
+        MvcTestResult result = mvcTester.post().uri("/api/members").contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson).exchange();
 
-        verify(memberRegister).register(request);
-    }
-
-    @Test
-    void registerFail() {
-        MemberRegisterRequest request = MemberFixture.createMemberRegisterRequest("invalid-email");
-        String requestJson = objectMapper.writeValueAsString(request);
-
-        assertThat(mvcTester.post().uri("/api/members").contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson))
-                .hasStatus(HttpStatus.BAD_REQUEST);
+        assertThat(result)
+                .apply(print())
+                .hasStatus(HttpStatus.CONFLICT);
     }
 }

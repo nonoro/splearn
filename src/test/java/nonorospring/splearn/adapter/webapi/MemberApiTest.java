@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @RequiredArgsConstructor
 @AutoConfigureMockMvc
 @SpringBootTest
-public class MemberApiTest {
+class MemberApiTest {
     final MockMvcTester mvcTester;
     final ObjectMapper objectMapper;
     final MemberRepository memberRepository;
